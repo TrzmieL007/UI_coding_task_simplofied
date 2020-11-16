@@ -5,7 +5,6 @@ import Form from './form.tsx';
 import Welcome from './welcome.tsx';
 import Success from './success.tsx';
 import {connect} from "react-redux";
-import { categories, coordinators } from './data.ts';
 
 class App extends React.Component {
   constructor(props){
@@ -22,8 +21,6 @@ class App extends React.Component {
               id:-1,
               email:this.props.appState.email
             }}
-            Categories={categories}
-            Coordinators={coordinators}
           />}
         />
         <Route component={Success} path="/success" />

@@ -4,8 +4,6 @@ import {Category, Coordinator} from "./data";
 
 interface FormProps {
     Me: Coordinator;
-    Coordinators: Array<Coordinator>;
-    Categories: Array<Category>;
     history: any;
 }
 interface FromState {
@@ -20,6 +18,10 @@ interface FromState {
     duration: number,
     coordinator: StateCoordinator,
     validate: { [key:string] : string }
+    data: {
+        Coordinators: Array<Coordinator>;
+        Categories: Array<Category>;
+    }
 }
 interface StateCoordinator {
     email: string,
@@ -43,7 +45,11 @@ export default class Form extends React.Component<FormProps,FromState> {
                 email: props.Me && props.Me.email,
                 id: props.Me && props.Me.id,
             },
-            validate: {}
+            validate: {},
+            data:{
+                Categories: [],
+                Coordinators: []
+            }
         };
         this.eventFeeField = React.createRef();
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -58,8 +64,8 @@ export default class Form extends React.Component<FormProps,FromState> {
         if(/^coordinator/.test(name)) {
             let coordinator : StateCoordinator = Object.assign({}, this.state.coordinator, {[name.replace(/^coordinator_/,"")]: value});
             if(name === "coordinator_id") {
-                let coord : Coordinator | void = this.props.Coordinators.find((c: Coordinator): boolean => c.id.toString() === value);
-                if(coord) coordinator.email = coord.email;
+                let coord : Coordinator | void = this.state.data.Coordinators.find((c: Coordinator): boolean => c.id.toString() === value);
+                coordinator.email = coord ? coord.email : this.props.Me.email;
             }
             this.setState({
                 coordinator
@@ -78,6 +84,10 @@ export default class Form extends React.Component<FormProps,FromState> {
     }
     componentDidMount() {
         if(!this.props.Me.name || !this.props.Me.email) this.props.history.push('');
+        else{
+            this.getTheData('http://www.mocky.io/v2/5bcdd3942f00002c00c855ba','Categories');
+            this.getTheData('http://www.mocky.io/v2/5bcdd7992f00006300c855d5','Coordinators');
+        }
     }
 
     render() {
@@ -109,7 +119,7 @@ export default class Form extends React.Component<FormProps,FromState> {
                         <label htmlFor={"category_id"}>Category</label>
                         <div>
                             <select name={"category_id"} onChange={this.onChangeHandler} placeholder={"Select category"} value={this.state.category_id}>
-                                {this.props.Categories.map((c:Category):React.ReactElement =>
+                                {this.state.data.Categories.map((c:Category):React.ReactElement =>
                                     <option key={c.id} value={c.id}>{c.name}</option>
                                 )}
                             </select>
@@ -150,7 +160,7 @@ export default class Form extends React.Component<FormProps,FromState> {
                         <div>
                             <select name={"coordinator_id"} onChange={this.onChangeHandler} placeholder={"Select category"} value={this.state.coordinator.id} required={true}>
                                 <option value={this.props.Me.id}>Me - {this.props.Me.name+" "+this.props.Me.lastname}</option>
-                                {this.props.Coordinators.map((c:Coordinator):React.ReactElement =>
+                                {this.state.data.Coordinators.map((c:Coordinator):React.ReactElement =>
                                     <option value={c.id} key={c.id}>{c.name+" "+c.lastname}</option>
                                 )}
                             </select>
@@ -195,6 +205,7 @@ export default class Form extends React.Component<FormProps,FromState> {
         if(!this.validate()) return;
         let data : any = Object.assign({},this.state);
         delete data.validate;
+        delete data.data;
         data.date = data.date+"T"+data.time;
         delete data.time;
         data.duration = data.duration * 3600;
@@ -224,5 +235,38 @@ export default class Form extends React.Component<FormProps,FromState> {
 
         this.setState({ validate });
         return !Object.keys(validate).length;
+    }
+
+    getTheData(url:string, set: string):void {
+        let that : Form = this;
+        let handleEvent = function handleEvent(e:Event): void {
+            let res : any;
+            let err : any;
+            try {
+                //@ts-ignore
+                res = JSON.parse(this.responseText);
+            }catch(e){
+                //@ts-ignore
+                res = this.response;
+            }
+            switch(e.type) {
+                case "load":
+                    //@ts-ignore
+                    if (this.status === 200 && !err) {
+                        that.setState({ data : Object.assign({},that.state.data, {[set] : res }) });
+                    }
+                    //@ts-ignore
+                    if(this.status && this.status < 400)
+                        break;
+                case "error":
+                    alert('error getting data');
+                    break;
+            }
+        };
+        let xhr : XMLHttpRequest = new XMLHttpRequest();
+        xhr.addEventListener("load", handleEvent);
+        xhr.addEventListener("error", handleEvent);
+        xhr.open('GET',url);
+        xhr.send();
     }
 }
