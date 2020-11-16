@@ -1,0 +1,193 @@
+.App {
+  background: #f7f7f7;
+  min-height: 100vh;
+}
+
+.App-header {
+  border-top: 0.5em solid #1b3c67;
+  background-color: #35588e;
+  line-height: 3em;
+  padding: 0.5em 0 0.3em;
+  color: white;
+}
+.App-header div {
+  font-size: 2em;
+}
+
+.Container {
+  width: 80vw;
+  margin: 0 auto;
+}
+.Container article {
+  background: white;
+  border: 2px solid #eee;
+  margin-top: 1em;
+  padding: 0.5em 1em;
+}
+.Container article.success {
+  background: #effcf2;
+}
+.Container article.success header {
+  color: #a5cbac;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+.Container article:last-child {
+  margin-bottom: 1em;
+}
+.Container article header {
+  color: #35588e;
+  font-size: 1.5em;
+  border-bottom: 1px solid #eee;
+  line-height: 1.5em;
+  margin-bottom: 1em;
+}
+.Container article section {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1em;
+}
+.Container article section label:not(.RadioLabel) {
+  text-transform: uppercase;
+  width: 16vw;
+  display: inline-block;
+  color: #35588e;
+}
+.Container article section label:not(.RadioLabel) span.required:after {
+  content: "*";
+  color: red;
+  vertical-align: super;
+}
+.Container article section div {
+  display: inline-block;
+  width: 40vw;
+}
+.Container article section div input:not([type=radio]), .Container article section div textarea, .Container article section div select {
+  border: 1px solid #eee;
+  border-radius: 0;
+  display: inline-block;
+  width: 100%;
+  padding: 6px 8px;
+}
+.Container article section div input:not([type=radio]):not(:first-child), .Container article section div textarea:not(:first-child), .Container article section div select:not(:first-child) {
+  margin-left: 1em;
+}
+.Container article section div [name=event_fee], .Container article section div [name=event_fee] + span {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity ease-in 512ms;
+  width: auto;
+}
+.Container article section div [name=event_fee].show, .Container article section div [name=event_fee].show + span {
+  visibility: visible;
+  opacity: 1;
+}
+.Container article section div input.narrow {
+  width: 8vw;
+}
+.Container article section div input.autoW {
+  width: auto !important;
+}
+.Container article section div .RadioLabel {
+  margin: 0 0.5em;
+  cursor: pointer;
+}
+.Container article section div .charactersCount {
+  display: block;
+  text-align: right;
+  color: #aaa;
+  width: 100%;
+  font-size: 0.8em;
+}
+.Container article section div > *:not(:first-child) {
+  margin-left: 0.5em;
+}
+.Container article section > span.error {
+  display: inline-block;
+  background-color: #f5b2b3;
+  color: white;
+  position: relative;
+  visibility: hidden;
+  margin-left: 2em;
+  padding: 6px;
+  align-self: baseline;
+  max-width: calc(16vw - 1em);
+}
+.Container article section > span.error:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -0.6em;
+  border: 0.3em solid transparent;
+  border-right-color: #f5b2b3;
+  margin-top: -0.3em;
+  height: 0;
+  width: 0;
+}
+.Container article section > span.error:not(:empty) {
+  visibility: visible;
+}
+.Container article section.error label {
+  color: #f58485;
+}
+.Container article section.error input, .Container article section.error select, .Container article section.error textarea {
+  border-color: #f5b2b3 !important;
+}
+
+button {
+  margin: 1em auto;
+  background: #fe8d1d;
+  color: white;
+  padding: 0.5em 1em;
+  border: none;
+  text-transform: uppercase;
+  display: block;
+}
+
+@media screen and (max-width: 767px) {
+  .Container article section,
+.Container article section label:not(.RadioLabel),
+.Container article section div, .Container article section > span.error,
+.Container article section div input.narrow {
+    display: block;
+    width: calc(100% - 1em);
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+  .Container article section div,
+.Container article section label:not(.RadioLabel) div,
+.Container article section div div, .Container article section > span.error div,
+.Container article section div input.narrow div {
+    width: calc(100% - 1em);
+  }
+  .Container article section > span.error {
+    margin-left: 0;
+    display: inline-block;
+    max-width: calc(100% - 1em);
+  }
+  .Container article section > span.error:before {
+    top: 0;
+    left: 50%;
+    border-right-color: transparent;
+    border-bottom-color: #f5b2b3;
+    margin-left: -0.3em !important;
+    margin-top: -0.6em;
+  }
+  .Container article section .RadioLabel:after {
+    content: "";
+    display: block;
+  }
+  .Container article section div > div:not(:first-child) {
+    margin-left: 0 !important;
+  }
+  .Container article section [name=event_fee], .Container article section [name=event_fee] + span {
+    display: none !important;
+    margin-left: 0 !important;
+    width: 32% !important;
+  }
+  .Container article section [name=event_fee].show, .Container article section [name=event_fee].show + span {
+    display: inline-block !important;
+  }
+}
+
+/*# sourceMappingURL=App.css.map */

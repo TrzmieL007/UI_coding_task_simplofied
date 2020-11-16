@@ -1,0 +1,211 @@
+$gap : 1em;
+.App {
+  background: #f7f7f7;
+  min-height: 100vh;
+}
+.App-header {
+  border-top: .5em solid #1b3c67;
+  background-color: #35588e;
+  line-height: 3em;
+  padding: .5em 0 .3em;
+  color: white;
+  div {
+    font-size: 2em;
+  }
+}
+.Container {
+  width: 80vw;
+  margin: 0 auto;
+
+  article {
+    background: white;
+    border: 2px solid #eee;
+    margin-top: $gap;
+    padding: ($gap / 2) $gap;
+
+    &.success {
+      background: #effcf2;
+
+      header {
+        color: #a5cbac;
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: $gap;
+    }
+
+    header {
+      color: #35588e;
+      font-size: 1.5em;
+      border-bottom: 1px solid #eee;
+      line-height: 1.5em;
+      margin-bottom: $gap;
+    }
+
+    section {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: $gap;
+
+      label:not(.RadioLabel) {
+        text-transform: uppercase;
+        width: 16vw;
+        display: inline-block;
+        color: #35588e;
+
+        span.required:after {
+          content: "*";
+          color: red;
+          vertical-align: super;
+        }
+      }
+
+      div {
+        display: inline-block;
+        width: 40vw;
+
+        input:not([type="radio"]), textarea, select {
+          border: 1px solid #eee;
+          border-radius: 0;
+          display: inline-block;
+          width: 100%;
+          padding: 6px 8px;
+
+          &:not(:first-child) {
+            margin-left: 1em;
+          }
+        }
+
+        [name="event_fee"], [name="event_fee"] + span {
+          visibility: hidden;
+          opacity: 0;
+          transition: opacity ease-in 512ms;
+          width: auto;
+        }
+
+        [name="event_fee"].show, [name="event_fee"].show + span {
+          visibility: visible;
+          opacity: 1;
+        }
+
+        input.narrow {
+          width: 8vw;
+        }
+
+        input.autoW {
+          width: auto !important;
+        }
+
+        .RadioLabel {
+          margin: 0 ($gap / 2);
+          cursor: pointer;
+        }
+
+        .charactersCount {
+          display: block;
+          text-align: right;
+          color: #aaa;
+          width: 100%;
+          font-size: .8em;
+        }
+
+        & > *:not(:first-child) {
+          margin-left: $gap / 2;
+        }
+      }
+
+      & > span.error {
+        display: inline-block;
+        background-color: #f5b2b3;
+        color: white;
+        position: relative;
+        visibility: hidden;
+        margin-left: 2em;
+        padding: 6px;
+        align-self: baseline;
+        max-width: calc(16vw - 1em);
+        &:before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: -.6em;
+          border: .3em solid transparent;
+          border-right-color: #f5b2b3;
+          margin-top: -.3em;
+          height: 0;
+          width: 0;
+        }
+        &:not(:empty) {
+          visibility: visible;
+        }
+      }
+      &.error {
+        label { color: #f58485; }
+        input, select, textarea { border-color: #f5b2b3!important; }
+      }
+    }
+  }
+}
+
+button {
+  margin: $gap auto;
+  background: #fe8d1d;
+  color: white;
+  padding: ($gap / 2) $gap;
+  border: none;
+  text-transform: uppercase;
+  display: block;
+}
+
+@media screen and (max-width: 767px) {
+  .Container article section {
+    &,
+    label:not(.RadioLabel),
+    div,
+    & > span.error,
+    div input.narrow {
+      display: block;
+      width: calc(100% - #{$gap});
+      margin-top: 4px;
+      margin-bottom: 4px;
+
+      div {
+        width: calc(100% - #{$gap});
+      }
+    }
+
+    & > span.error {
+      margin-left: 0;
+      display: inline-block;
+      max-width: calc(100% - #{$gap});
+
+      &:before {
+        top: 0;
+        left: 50%;
+        border-right-color: transparent;
+        border-bottom-color: #f5b2b3;
+        margin-left: -.3em!important;
+        margin-top: -.6em;
+      }
+    }
+    .RadioLabel:after {
+      content:"";
+      display: block;
+    }
+
+    div > div:not(:first-child) {
+      margin-left: 0 !important;
+    }
+    [name="event_fee"], [name="event_fee"] + span {
+      display: none !important;
+      margin-left:0 !important;
+      width: 32% !important;
+    }
+    [name="event_fee"].show, [name="event_fee"].show + span {
+      display: inline-block !important;
+    }
+  }
+}
