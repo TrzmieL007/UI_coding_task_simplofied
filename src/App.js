@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Form from './form.tsx';
-import Welcome from './welcome.tsx';
-import Success from './success.tsx';
+import Form from './components/form.tsx';
+import Welcome from './components/welcome.tsx';
+import Success from './components/success.tsx';
 import {connect} from "react-redux";
 
 class App extends React.Component {
