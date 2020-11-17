@@ -11,6 +11,7 @@ Quick & dirty means not everything has been implemented:
 - SASS used instead of LESS, but that was my bad, as after reading requirements I thought it was SASS and later I didn't want to convert it again,
 - Ajax loaded data to select fields done inside the component and uses state to pass it instead of redux via props.
  
+Next thing to do would be extracting all sections and articles from form.tsx to separate components (two components), that would pass its data by redux back to form. That could be then managed by eg json file describing lables inout wields with types and validation messages.
 
 The project has been written in TS using create-react-app tool, so its usage is simple and described below:
 
